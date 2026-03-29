@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fullstack DevOps App</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #0f172a;
+    }
+
+    .running {
+      color: #22c55e;
+    }
+
+    .error {
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🚀 DevOps App</h1>
+
+    <button onclick="checkBackend()">Check Backend</button>
+
+    <div id="statusBox" class="status">
+      Click button to check backend...
+    </div>
+  </div>
+
+  <script>
+    async function checkBackend() {
+      const box = document.getElementById("statusBox");
+      box.innerHTML = "Checking...";
+
+      try {
+        const res = await fetch("http://localhost:5000/api/status");;
+        const data = await res.json();
+
+        box.innerHTML = `
+          <p class="running">✅ ${data.message}</p>
+          <p>🕒 ${new Date(data.timestamp).toLocaleString()}</p>
+        `;
+      } catch (err) {
+        box.innerHTML = `<p class="error">❌ Backend not reachable</p>`;
+      }
+    }
+  </script>
+
+</body>
+</html>
