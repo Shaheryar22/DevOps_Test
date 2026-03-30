@@ -5,11 +5,11 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Shaheryar22/DevOps_Test'
+                git branch: 'main', url: 'https://github.com/Shaheryar22/DevOps_Test.git'
             }
         }
 
-        stage('Stop Existing Containers') {
+        stage('Stop Old Containers') {
             steps {
                 sh 'docker compose down || true'
             }
@@ -21,7 +21,7 @@ pipeline {
             }
         }
 
-        stage('Verify Running Containers') {
+        stage('Verify Containers') {
             steps {
                 sh 'docker ps'
             }
@@ -30,7 +30,7 @@ pipeline {
 
     post {
         success {
-            echo "🚀 Fullstack App with DB Deployed Successfully"
+            echo "🚀 App Deployed Successfully"
         }
         failure {
             echo "❌ Deployment Failed"
