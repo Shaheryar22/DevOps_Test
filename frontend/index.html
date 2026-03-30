@@ -72,23 +72,27 @@
   </div>
 
   <script>
-    async function checkBackend() {
-      const box = document.getElementById("statusBox");
-      box.innerHTML = "Checking...";
+	async function checkBackend() {
+	  const box = document.getElementById("statusBox");
+	  box.innerHTML = "Loading...";
 
-      try {
-        const res = await fetch("http://localhost:5000/api/status");;
-        const data = await res.json();
+	  try {
+	    const res = await fetch("http://localhost:5000/api/status");
+	    const data = await res.json();
 
-        box.innerHTML = `
-          <p class="running">✅ ${data.message}</p>
-          <p>🕒 ${new Date(data.timestamp).toLocaleString()}</p>
-        `;
-      } catch (err) {
-        box.innerHTML = `<p class="error">❌ Backend not reachable</p>`;
-      }
-    }
-  </script>
+	    let html = `<p style="color:lightgreen;">✅ Backend Running</p>`;
+
+	    data.history.forEach(item => {
+	      html += `<p>🕒 ${new Date(item.timestamp).toLocaleString()}</p>`;
+	    });
+
+	    box.innerHTML = html;
+
+	  } catch (err) {
+	    box.innerHTML = `<p style="color:red;">❌ Backend not reachable</p>`;
+	  }
+	}
+</script>
 
 </body>
 </html>
